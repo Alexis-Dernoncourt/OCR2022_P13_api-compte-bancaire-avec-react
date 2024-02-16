@@ -1,0 +1,13 @@
+{
+    "prettier.endOfLine": "auto",
+    "prettier.requireConfig": true,
+    "prettier.printWidth": 100,
+    "prettier.semi": false,
+    "prettier.singleAttributePerLine": true,
+    "prettier.tabWidth": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "javascript.format.enable": true,
+    "typescript.format.enable": true
+}
