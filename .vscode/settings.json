@@ -1,7 +1,7 @@
 {
     "prettier.endOfLine": "auto",
     "prettier.requireConfig": true,
-    "prettier.printWidth": 100,
+    "prettier.printWidth": 80,
     "prettier.semi": false,
     "prettier.singleAttributePerLine": true,
     "prettier.tabWidth": 2,
