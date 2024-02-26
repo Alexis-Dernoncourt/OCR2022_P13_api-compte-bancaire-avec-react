@@ -16,11 +16,16 @@
 
 .main-nav-item {
   text-decoration: none;
-  margin-right: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .main-nav-item:hover {
   text-decoration: underline;
+}
+
+.main-nav-item i {
+  text-decoration: none;
+  margin-right: 0.5rem;
 }
 
 .main-nav-logo {

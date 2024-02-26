@@ -8,6 +8,6 @@
   "trailingComma": "es5",
   "bracketSpacing": true,
   "singleAttributePerLine": false,
-  "bracketSameLine": false,
+  "bracketSameLine": true,
   "jsxSingleQuote": false
 }
