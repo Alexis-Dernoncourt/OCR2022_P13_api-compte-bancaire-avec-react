@@ -8,9 +8,7 @@ import User from "./pages/auth/User/User"
 function App() {
   return (
     <>
-      {/* <header> */}
       <Nav />
-      {/* </header> */}
       <main className="main bg-dark">
         {/* <Hero />
         <Features /> */}
