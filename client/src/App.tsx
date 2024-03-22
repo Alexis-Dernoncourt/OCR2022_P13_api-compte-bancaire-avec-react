@@ -3,17 +3,19 @@ import Nav from "./components/Nav/Nav"
 // import Hero from "./components/Hero/Hero"
 // import Features from "./components/Features/Features"
 import Footer from "./components/Footer/Footer"
-import User from "./pages/auth/User/User"
-// import SignIn from "./pages/public/SignIn/SignIn"
+// import User from "./pages/auth/User/User"
+import SignIn from "./pages/public/SignIn/SignIn"
+
 function App() {
+  // TODO: add typescript models
   return (
     <>
       <Nav />
       <main className="main bg-dark">
         {/* <Hero />
         <Features /> */}
-        {/* <SignIn /> */}
-        <User />
+        <SignIn />
+        {/* <User /> */}
       </main>
       <Footer />
     </>
