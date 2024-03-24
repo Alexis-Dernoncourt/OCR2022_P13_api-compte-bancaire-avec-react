@@ -30,8 +30,9 @@ export default function SignIn() {
         body: JSON.stringify(bodyData),
       })
       const data = await apiLogin.json()
-      // console.log("🚀 ~ loginUser ~ data:", data)
-      if (data.body.token) {
+      data.status === 400 && toast.error(data.message)
+
+      if (data.status === 200 && data.body.token) {
         localStorage.setItem("token", data.body.token)
         dispatch(
           loginUserAction({ email: bodyData.email, token: data.body.token })
@@ -40,8 +41,7 @@ export default function SignIn() {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log("🚀 ~ loginUser ~ error:", error)
-      error.message && toast.error(error.message)
+      console.error("🚀 ~ loginUser ~ error:", error)
     } finally {
       setLoading(false)
     }
