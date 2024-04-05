@@ -22,10 +22,25 @@ export type ApiResponseType = {
 }
 
 export type LoginResponseType = {
-  token: string
+  status: number
+  message: string
+  body: {
+    token: string
+  }
 }
 
 export type UserProfileType = {
   firsName: string
   lastName: string
 }
+
+// Redux types
+export interface UserState {
+  id: string
+  firstname: string
+  lastname: string
+  email: string
+  token: string
+}
+
+export type LoginPayloadType = Omit<UserState, "id" | "firstname" | "lastname">

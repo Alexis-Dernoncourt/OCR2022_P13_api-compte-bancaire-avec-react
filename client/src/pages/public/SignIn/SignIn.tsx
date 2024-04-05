@@ -2,42 +2,43 @@ import { useState } from "react"
 import "./SignIn.css"
 import { useDispatch } from "react-redux"
 import { loginUserAction } from "../../../redux/slices/userSlice"
-import { BaseURL } from "../../../config"
 import toast from "react-hot-toast"
+// import { AuthStatus } from "../../../config/auth/AuthStatus"
+import { apiLogin } from "../../../api"
+import { LoginResponseType } from "../../../config/types"
+import { useLocation } from "react-router-dom"
 
 export default function SignIn() {
   const [firstName, setFirstName] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
+  const location = useLocation()
+  console.log("🚀 ~ SignIn ~ location:", location)
   const dispatch = useDispatch()
 
   async function loginUser(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault()
     setLoading(true)
-    // TODO: if user checked the 'remember me' option persist the token into localstorage; otherwise, do NOT persist
-    console.log("🚀 ~ SignIn ~ rememberMe:", rememberMe)
     try {
       const bodyData = {
         email: firstName,
         password,
       }
-      const apiLogin = await fetch(`${BaseURL}/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bodyData),
-      })
-      const data = await apiLogin.json()
-      data.status === 400 && toast.error(data.message)
+      const loginResponse: LoginResponseType = await apiLogin(bodyData)
+      loginResponse.status === 400 && toast.error(loginResponse.message)
 
-      if (data.status === 200 && data.body.token) {
-        localStorage.setItem("token", data.body.token)
+      if (loginResponse.status === 200 && loginResponse.body.token) {
+        if (rememberMe) {
+          localStorage.setItem("token", loginResponse.body.token)
+        }
         dispatch(
-          loginUserAction({ email: bodyData.email, token: data.body.token })
+          loginUserAction({
+            email: bodyData.email,
+            token: loginResponse.body.token,
+          })
         )
-        toast.success(data.message)
+        toast.success(loginResponse.message)
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -81,11 +82,14 @@ export default function SignIn() {
         </div>
         <button
           className="sign-in-button"
-          onClick={async e => await loginUser(e)}
+          onClick={e => loginUser(e)}
           disabled={loading}>
           {loading ? "Loading..." : "Sign In"}
         </button>
       </form>
+      {/* <section>
+        <AuthStatus />
+      </section> */}
     </section>
   )
 }
