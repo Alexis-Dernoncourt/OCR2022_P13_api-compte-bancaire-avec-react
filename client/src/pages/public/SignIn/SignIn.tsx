@@ -1,12 +1,12 @@
 import { useState } from "react"
-import "./SignIn.css"
+import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
 import { loginUserAction } from "../../../redux/slices/userSlice"
-import toast from "react-hot-toast"
+import "./SignIn.css"
 // import { AuthStatus } from "../../../config/auth/AuthStatus"
+import { useLocation } from "react-router-dom"
 import { apiLogin } from "../../../api"
 import { LoginResponseType } from "../../../config/types"
-import { useLocation } from "react-router-dom"
 
 export default function SignIn() {
   const [firstName, setFirstName] = useState("")

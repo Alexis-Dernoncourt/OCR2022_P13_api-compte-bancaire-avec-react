@@ -1,9 +1,9 @@
+import toast from "react-hot-toast"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { logoutUserAction } from "../../redux/slices/userSlice"
 import "./Nav.css"
 import logo from "/images/argentBankLogo.png"
-import { useDispatch } from "react-redux"
-import { logoutUserAction } from "../../redux/slices/userSlice"
-import toast from "react-hot-toast"
 
 export default function Nav() {
   const dispatch = useDispatch()
