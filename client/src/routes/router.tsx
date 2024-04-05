@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom"
-import SignIn from "../pages/public/SignIn/SignIn"
-import User from "../pages/auth/User/User"
 import Layout from "../components/Layout/Layout"
-import Home from "../pages/public/Home/Home"
 import RequireAuth from "../config/auth/RequireAuth"
+import User from "../pages/auth/User/User"
+import Home from "../pages/public/Home/Home"
+import SignIn from "../pages/public/SignIn/SignIn"
 
 export default function Router() {
   return (
@@ -12,7 +12,7 @@ export default function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route
-          path="/dashboard"
+          path="/profile"
           element={
             <RequireAuth>
               <User />

@@ -10,6 +10,7 @@ export type UserType = {
 export type LoginType = {
   email: string
   password: string
+  rememberMe: boolean
 }
 
 export type ApiResponseType = {
@@ -41,6 +42,7 @@ export interface UserState {
   lastname: string
   email: string
   token: string
+  rememberMe: boolean
 }
 
-export type LoginPayloadType = Omit<UserState, "id" | "firstname" | "lastname">
+export type LoginPayloadType = Pick<UserState, "email" | "token" | "rememberMe">

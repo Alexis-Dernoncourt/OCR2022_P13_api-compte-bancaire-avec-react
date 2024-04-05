@@ -1,7 +1,9 @@
 import { BaseURL } from "../config"
 import { LoginType } from "../config/types"
 
-export const apiLogin = async (loginData: LoginType) => {
+export const apiLogin = async (
+  loginData: Pick<LoginType, "email" | "password">
+) => {
   const res = await fetch(`${BaseURL}/user/login`, {
     method: "POST",
     headers: {

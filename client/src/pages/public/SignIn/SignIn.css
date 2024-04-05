@@ -10,6 +10,12 @@
   color: #fff;
 }
 
+.sign-in-button:disabled {
+  background-color: #ccc;
+  color: darkslategrey;
+  border-color: #ccc;
+}
+
 .sign-in-content {
   box-sizing: border-box;
   background-color: white;

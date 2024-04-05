@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { LoginPayloadType, UserState } from "../../config/types"
 
 const initialState: UserState = {
@@ -8,6 +8,7 @@ const initialState: UserState = {
   lastname: "",
   email: "",
   token: "",
+  rememberMe: false,
 }
 
 export const userSlice = createSlice({
@@ -26,6 +27,7 @@ export const userSlice = createSlice({
     loginUserAction: (state, action: PayloadAction<LoginPayloadType>) => {
       state.email += action.payload.email
       state.token += action.payload.token
+      state.rememberMe = action.payload.rememberMe
     },
     logoutUserAction: state => {
       state.id = ""
@@ -33,6 +35,7 @@ export const userSlice = createSlice({
       state.lastname = ""
       state.email = ""
       state.token = ""
+      state.rememberMe = false
     },
   },
 })

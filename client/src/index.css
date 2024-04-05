@@ -23,6 +23,16 @@ body {
   background-color: #12002b;
 }
 
+.invalid {
+  border: 1px solid red;
+}
+
+.error-message {
+  margin-top: 0.2rem;
+  font-size: 0.8rem;
+  color: red;
+}
+
 .sr-only {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
