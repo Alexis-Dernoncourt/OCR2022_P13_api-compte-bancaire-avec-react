@@ -14,11 +14,11 @@ export default function Router() {
         <Route path="/" element={<Home />} />
         <Route
           path="/sign-in"
-          element={user.token ? <SignIn /> : <Navigate to="/" />}
+          element={!user.token ? <SignIn /> : <Navigate to="/" />}
         />
         <Route
           path="/sign-up"
-          element={user.token ? <SignIn /> : <Navigate to="/" />}
+          element={!user.token ? <SignIn /> : <Navigate to="/" />}
         />
         <Route
           path="/profile"
