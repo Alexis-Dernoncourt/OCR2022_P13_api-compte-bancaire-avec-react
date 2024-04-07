@@ -31,18 +31,20 @@ export const userSlice = createSlice({
     signupUserAction: (
       state,
       action: PayloadAction<
-        Omit<SignupPayloadType, "confirmPassword" | "password"> & { id: string }
+        Omit<
+          SignupPayloadType,
+          "confirmPassword" | "password" | "rememberMe"
+        > & { id: string }
       >
     ) => {
-      state.id += action.payload.id
-      state.firstname += action.payload.firstName
-      state.lastname += action.payload.lastName
-      state.email += action.payload.email
-      state.rememberMe = action.payload.rememberMe
+      state.id = action.payload.id
+      state.firstname = action.payload.firstName
+      state.lastname = action.payload.lastName
+      state.email = action.payload.email
     },
     loginUserAction: (state, action: PayloadAction<LoginPayloadType>) => {
-      state.email += action.payload.email
-      state.token += action.payload.token
+      state.email = action.payload.email
+      state.token = action.payload.token
       state.rememberMe = action.payload.rememberMe
     },
     logoutUserAction: state => {
@@ -53,11 +55,18 @@ export const userSlice = createSlice({
       state.token = ""
       state.rememberMe = false
     },
+    updateUserId: (state, action: PayloadAction<{ id: string }>) => {
+      state.id = action.payload.id
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { signupUserAction, loginUserAction, logoutUserAction } =
-  userSlice.actions
+export const {
+  signupUserAction,
+  loginUserAction,
+  logoutUserAction,
+  updateUserId,
+} = userSlice.actions
 
 export default userSlice.reducer

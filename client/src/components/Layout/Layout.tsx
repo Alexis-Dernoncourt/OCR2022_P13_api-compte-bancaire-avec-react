@@ -6,7 +6,7 @@ import Nav from "../Nav/Nav"
 export default function Layout() {
   const location = useLocation()
   const bgDarkCheck = () => {
-    const pathsToDarkBG = ["/dashbord", "/sign-in", "/sign-up"]
+    const pathsToDarkBG = ["/dashbord", "/sign-in", "/sign-up", "/profile"]
     if (pathsToDarkBG.includes(location.pathname)) {
       return "bg-dark"
     }

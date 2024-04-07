@@ -42,15 +42,17 @@ export default function SignIn() {
       if (apiResponse.status === 200) {
         dispatch(
           signupUserAction({
-            id: apiResponse.body.id,
-            firstName: bodyData.firstName,
-            lastName: bodyData.lastName,
+            id: apiResponse.body._id,
+            firstName: apiResponse.body.firstName,
+            lastName: apiResponse.body.lastName,
             email: apiResponse.body.email,
-            rememberMe: data.rememberMe,
           })
         )
         toast.success(apiResponse.message)
-        navigate("/profile", { replace: true })
+        toast.success("Vous pouvez dès maintenant vous connecter !", {
+          icon: "🎉",
+        })
+        navigate("/sign-in", { replace: true })
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -123,17 +125,6 @@ export default function SignIn() {
           isSubmitting={isSubmitting}
           isLoading={isLoading}
           wrapperClass={wrapperClass}
-        />
-
-        <Input
-          register={register}
-          type="checkbox"
-          name="rememberMe"
-          label="Remember me"
-          error={errors.rememberMe?.message}
-          isSubmitting={isSubmitting}
-          isLoading={isLoading}
-          wrapperClass="input-remember"
         />
 
         <button

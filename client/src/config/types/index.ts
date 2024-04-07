@@ -17,7 +17,9 @@ export type SignupApiResponseType = {
   status: number
   message: string
   body: {
-    id: string
+    _id: string
+    firstName: string
+    lastName: string
     email: string
   }
 }

@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/auth"
 import User from "../pages/auth/User/User"
 import Home from "../pages/public/Home/Home"
 import SignIn from "../pages/public/Sign/SignIn"
+import SignUp from "../pages/public/Sign/SignUp"
 
 export default function Router() {
   const user = useAuth()
@@ -18,7 +19,7 @@ export default function Router() {
         />
         <Route
           path="/sign-up"
-          element={!user.token ? <SignIn /> : <Navigate to="/" />}
+          element={!user.token ? <SignUp /> : <Navigate to="/" />}
         />
         <Route
           path="/profile"

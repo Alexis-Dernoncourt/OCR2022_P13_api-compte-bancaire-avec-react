@@ -8,6 +8,7 @@
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  text-decoration: underline;
 }
 
 .sign-in-button:disabled {

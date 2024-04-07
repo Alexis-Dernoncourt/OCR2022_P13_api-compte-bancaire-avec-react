@@ -19,7 +19,7 @@ export const apiLogin = async (loginData: loginApiDataType) => {
 }
 
 export const apiSignup = async (signupData: UserType) => {
-  const res = await fetch(`${BaseURL}/user/login`, {
+  const res = await fetch(`${BaseURL}/user/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
