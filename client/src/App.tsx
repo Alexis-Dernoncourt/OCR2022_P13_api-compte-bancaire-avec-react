@@ -10,6 +10,7 @@ function App() {
     if (!user.rememberMe) {
       persistor.purge()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

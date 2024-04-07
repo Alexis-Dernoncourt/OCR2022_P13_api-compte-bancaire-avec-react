@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import "./SignIn.css"
 // import { AuthStatus } from "../../../config/auth/AuthStatus"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,27 +9,17 @@ import { apiLogin } from "../../../api"
 import Input from "../../../components/Form/Input"
 import { SignInValidationSchema } from "../../../components/Form/formValidation"
 import { LoginApiResponseType, loginApiDataType } from "../../../config/types"
-import { useAuth } from "../../../hooks/auth"
 import { loginUserAction } from "../../../redux/slices/userSlice"
 
 export default function SignIn() {
-  const user = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (user.token) {
-      navigate("/profile")
-    }
-    return () => {}
-  })
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting, isLoading },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<LoginApiResponseType>({
     resolver: zodResolver(SignInValidationSchema),
     mode: "onChange",

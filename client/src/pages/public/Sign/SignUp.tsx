@@ -1,6 +1,3 @@
-import { useEffect } from "react"
-import "./SignIn.css"
-// import { AuthStatus } from "../../../config/auth/AuthStatus"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -10,29 +7,18 @@ import { apiSignup } from "../../../api"
 import Input from "../../../components/Form/Input"
 import { SignUpValidationSchema } from "../../../components/Form/formValidation"
 import { SignupPayloadType, UserType } from "../../../config/types"
-import { useAuth } from "../../../hooks/auth"
 import { signupUserAction } from "../../../redux/slices/userSlice"
+import "./SignIn.css"
 
 export default function SignIn() {
-  const user = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (user.token) {
-      navigate("/profile")
-    }
-    return () => {}
-  })
-
   const {
     register,
     handleSubmit,
-    // clearErrors,
-    // watch,
     formState: { errors, isValid, isSubmitting, isLoading },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<SignupPayloadType>({
     resolver: zodResolver(SignUpValidationSchema),
     mode: "onChange",
@@ -168,9 +154,6 @@ export default function SignIn() {
           Me connecter
         </Link>
       </p>
-      {/* <section>
-        <AuthStatus />
-      </section> */}
     </section>
   )
 }
