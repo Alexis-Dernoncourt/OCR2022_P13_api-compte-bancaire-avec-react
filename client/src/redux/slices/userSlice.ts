@@ -1,6 +1,10 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
-import { LoginPayloadType, UserState } from "../../config/types"
+import {
+  LoginPayloadType,
+  SignupPayloadType,
+  UserState,
+} from "../../config/types"
 
 const initialState: UserState = {
   id: "",
@@ -24,6 +28,18 @@ export const userSlice = createSlice({
     //   state.value -= 1
     // }
 
+    signupUserAction: (
+      state,
+      action: PayloadAction<
+        Omit<SignupPayloadType, "confirmPassword" | "password"> & { id: string }
+      >
+    ) => {
+      state.id += action.payload.id
+      state.firstname += action.payload.firstName
+      state.lastname += action.payload.lastName
+      state.email += action.payload.email
+      state.rememberMe = action.payload.rememberMe
+    },
     loginUserAction: (state, action: PayloadAction<LoginPayloadType>) => {
       state.email += action.payload.email
       state.token += action.payload.token
@@ -41,6 +57,7 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { loginUserAction, logoutUserAction } = userSlice.actions
+export const { signupUserAction, loginUserAction, logoutUserAction } =
+  userSlice.actions
 
 export default userSlice.reducer

@@ -7,13 +7,13 @@ export type UserType = {
   lastName: string
 }
 
-export type LoginType = {
+export type LoginApiResponseType = {
   email: string
   password: string
   rememberMe: boolean
 }
 
-export type ApiResponseType = {
+export type SignupApiResponseType = {
   status: number
   message: string
   body: {
@@ -45,4 +45,9 @@ export interface UserState {
   rememberMe: boolean
 }
 
+export type loginApiDataType = Pick<LoginApiResponseType, "email" | "password">
+export type SignupPayloadType = UserType & {
+  confirmPassword?: string
+  rememberMe: boolean
+}
 export type LoginPayloadType = Pick<UserState, "email" | "token" | "rememberMe">

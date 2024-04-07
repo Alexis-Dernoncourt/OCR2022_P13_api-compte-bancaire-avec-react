@@ -1,12 +1,12 @@
 import { Toaster } from "react-hot-toast"
+import { Outlet, useLocation } from "react-router-dom"
 import Footer from "../Footer/Footer"
 import Nav from "../Nav/Nav"
-import { Outlet, useLocation } from "react-router-dom"
 
 export default function Layout() {
   const location = useLocation()
   const bgDarkCheck = () => {
-    const pathsToDarkBG = ["/dashbord", "/sign-in"]
+    const pathsToDarkBG = ["/dashbord", "/sign-in", "/sign-up"]
     if (pathsToDarkBG.includes(location.pathname)) {
       return "bg-dark"
     }

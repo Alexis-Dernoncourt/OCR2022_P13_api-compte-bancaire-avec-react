@@ -1,9 +1,12 @@
 import { BaseURL } from "../config"
-import { LoginType } from "../config/types"
+import {
+  LoginResponseType,
+  SignupApiResponseType,
+  UserType,
+  loginApiDataType,
+} from "../config/types"
 
-export const apiLogin = async (
-  loginData: Pick<LoginType, "email" | "password">
-) => {
+export const apiLogin = async (loginData: loginApiDataType) => {
   const res = await fetch(`${BaseURL}/user/login`, {
     method: "POST",
     headers: {
@@ -12,5 +15,17 @@ export const apiLogin = async (
     body: JSON.stringify(loginData),
   })
   const data = await res.json()
-  return data
+  return data as LoginResponseType
+}
+
+export const apiSignup = async (signupData: UserType) => {
+  const res = await fetch(`${BaseURL}/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(signupData),
+  })
+  const data = await res.json()
+  return data as SignupApiResponseType
 }

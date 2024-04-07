@@ -52,3 +52,13 @@
   padding: 5px;
   font-size: 1.2rem;
 }
+
+.sign-form-link,
+.sign-form-link:visited {
+  color: #00bc77;
+  text-decoration: none;
+}
+.sign-form-link:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
