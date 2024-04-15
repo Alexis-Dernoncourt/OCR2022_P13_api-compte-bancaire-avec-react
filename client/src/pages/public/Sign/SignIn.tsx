@@ -5,57 +5,57 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { apiLogin } from "../../../api"
 import Input from "../../../components/Form/Input"
 import { SignInValidationSchema } from "../../../components/Form/formValidation"
 import { LoginApiResponseType, loginApiDataType } from "../../../config/types"
+import { useLoginUserMutation } from "../../../redux/services/authService"
 import { loginUserAction } from "../../../redux/slices/userSlice"
 
 export default function SignIn() {
   const navigate = useNavigate()
-  const location = useLocation()
   const dispatch = useDispatch()
+  const location = useLocation()
+  const [loginUser, { isLoading }] = useLoginUserMutation()
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, isLoading },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<LoginApiResponseType>({
     resolver: zodResolver(SignInValidationSchema),
     mode: "onChange",
   })
 
   const onSubmit: SubmitHandler<LoginApiResponseType> = async (data, e) => {
-    console.log("SubmitHandler ~ data:", data)
     e?.preventDefault()
     toast.loading("Envoi...", { id: "loading" })
     try {
-      const bodyData = {
+      const bodyData: loginApiDataType = {
         email: data.email,
         password: data.password,
       }
+      const apiResponse = await loginUser(bodyData).unwrap()
 
-      const apiResponse = await apiLogin(bodyData as loginApiDataType)
-      apiResponse!.status === 400 && toast.error(apiResponse!.message)
-
-      if (apiResponse.status === 200 && apiResponse.body.token) {
-        if (location.pathname === "/sign-in") {
-          dispatch(
-            loginUserAction({
-              email: bodyData.email,
-              token: apiResponse.body.token,
-              rememberMe: data.rememberMe,
-            })
-          )
-        }
-
-        toast.success(apiResponse.message)
-        navigate("/profile", { replace: true })
+      if (data.rememberMe) {
+        localStorage.setItem("userToken", apiResponse.body.token)
+        localStorage.setItem("userEmail", bodyData.email)
+      } else {
+        dispatch(
+          loginUserAction({
+            token: apiResponse.body.token,
+            email: bodyData.email,
+          })
+        )
       }
+
+      toast.success(apiResponse.message)
+      navigate("/profile", {
+        replace: true,
+      })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("🚀 ~ loginUser ~ error:", error)
-      toast.error("Il y a eu une erreur")
+      toast.error(error.data?.message || "Il y a eu une erreur")
     } finally {
       toast.remove("loading")
     }

@@ -8,19 +8,20 @@ import SignIn from "../pages/public/Sign/SignIn"
 import SignUp from "../pages/public/Sign/SignUp"
 
 export default function Router() {
-  const user = useAuth()
+  const userToken = useAuth()
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route
           path="/sign-in"
-          element={!user.token ? <SignIn /> : <Navigate to="/" />}
+          element={!userToken ? <SignIn /> : <Navigate to="/" />}
         />
         <Route
           path="/sign-up"
-          element={!user.token ? <SignUp /> : <Navigate to="/" />}
+          element={!userToken ? <SignUp /> : <Navigate to="/" />}
         />
+        <Route path="/*" element={<Navigate to="/" replace />} />
         <Route
           path="/profile"
           element={

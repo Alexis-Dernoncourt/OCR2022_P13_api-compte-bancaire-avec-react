@@ -33,6 +33,12 @@ body {
   color: red;
 }
 
+button:disabled {
+  background-color: #ccc;
+  color: darkslategrey;
+  border-color: #ccc;
+}
+
 .sr-only {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */

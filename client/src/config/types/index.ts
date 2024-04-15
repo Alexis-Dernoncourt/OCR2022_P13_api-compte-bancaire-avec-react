@@ -32,8 +32,14 @@ export type LoginResponseType = {
   }
 }
 
+export type GetProfileResponseType = {
+  status: number
+  message: string
+  body: UserDataType
+}
+
 export type UserProfileType = {
-  firsName: string
+  firstName: string
   lastName: string
 }
 
@@ -43,8 +49,13 @@ export interface UserState {
   firstname: string
   lastname: string
   email: string
-  token: string
+  token: string | null
   rememberMe: boolean
+}
+
+export interface UserDataType extends UserType {
+  updatedAt: string
+  createdAt: string
 }
 
 export type loginApiDataType = Pick<LoginApiResponseType, "email" | "password">
@@ -52,4 +63,11 @@ export type SignupPayloadType = UserType & {
   confirmPassword?: string
   rememberMe: boolean
 }
-export type LoginPayloadType = Pick<UserState, "email" | "token" | "rememberMe">
+export type UserReduxState = Pick<UserState, "email"> & {
+  token: string
+}
+export type ErrorApiResponseType = Pick<LoginResponseType, "status" | "message">
+export type updateUserApiResponseType = Pick<
+  LoginResponseType,
+  "status" | "message"
+> & { body: Pick<UserState, "id" | "email"> }

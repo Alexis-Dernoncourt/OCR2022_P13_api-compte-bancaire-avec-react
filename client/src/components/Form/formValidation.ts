@@ -31,4 +31,13 @@ const SignUpValidationSchema = z
     }
   )
 
-export { SignInValidationSchema, SignUpValidationSchema }
+const EditNameValidationSchema = z.object({
+  firstName: z.string().min(2, "Entrez au moins 2 caractères"),
+  lastName: z.string().min(2, "Entrez au moins 2 caractères"),
+})
+
+export {
+  EditNameValidationSchema,
+  SignInValidationSchema,
+  SignUpValidationSchema,
+}

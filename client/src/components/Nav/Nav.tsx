@@ -1,32 +1,10 @@
-import toast from "react-hot-toast"
-import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { useAuth } from "../../hooks/auth"
-import { logoutUserAction } from "../../redux/slices/userSlice"
-import { persistor } from "../../redux/store"
+import { useLogout } from "../../hooks/auth"
 import "./Nav.css"
 import logo from "/images/argentBankLogo.png"
 
 export default function Nav() {
-  const dispatch = useDispatch()
-  const user = useAuth()
-
-  const logoutUser = () => {
-    if (!user.token) {
-      toast.error("Vous êtes déjà déconnecté", {
-        duration: 3000,
-        icon: "❌",
-        style: {
-          backgroundColor: "#fff",
-          color: "#2c3e50",
-        },
-      })
-      return
-    }
-    dispatch(logoutUserAction())
-    persistor.purge()
-    toast.success("Vous êtes bien déconnecté")
-  }
+  const { logoutUser } = useLogout()
 
   return (
     <nav className="main-nav">
@@ -40,7 +18,7 @@ export default function Nav() {
       </Link>
       <div>
         <button className="main-nav-item" type="button" onClick={logoutUser}>
-          <i className="fa fa-logout"></i>
+          <i className="fa fa-close"></i>
           Logout
         </button>
         <Link className="main-nav-item" to="/profile">

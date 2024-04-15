@@ -37,7 +37,15 @@ const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className={wrapperClass}>
-      {type !== "checkbox" && label && <label htmlFor={name}>{label}</label>}
+      {type !== "checkbox" &&
+        label &&
+        (label === "sr-only" ? (
+          <label htmlFor={name} className="sr-only">
+            {name}
+          </label>
+        ) : (
+          <label htmlFor={name}>{label}</label>
+        ))}
       <input
         {...register(name)}
         id={name}

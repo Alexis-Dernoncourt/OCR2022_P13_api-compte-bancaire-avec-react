@@ -1,19 +1,18 @@
 import { useAuth } from "../../hooks/auth"
 
 export default function AuthStatus() {
-  const auth = useAuth()
+  const userToken = useAuth()
   // const navigate = useNavigate()
 
-  if (!auth.token) {
+  if (!userToken) {
     return <p>You are not logged in.</p>
   }
 
   return (
     <p>
-      Welcome {auth.firstname}!{" "}
+      Welcome !
       <button
         onClick={() => {
-          console.log("🚀 ~ AuthStatus ~ auth:", auth)
           //   auth.signout(() => navigate("/"))
         }}>
         Sign out
