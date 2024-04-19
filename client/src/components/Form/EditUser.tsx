@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { UserProfileType } from "../../config/types"
 import { useUpdateUserDataMutation } from "../../redux/services/authService"
+import "./EditUser.css"
 import Input from "./Input"
 import { EditNameValidationSchema } from "./formValidation"
 
@@ -23,7 +23,7 @@ export default function EditUsername({
     handleSubmit,
     setError,
     clearErrors,
-    formState: { errors, isValid, isValidating, isSubmitting, isLoading },
+    formState: { errors, isValid, isSubmitting, isLoading },
   } = useForm<UserProfileType>({
     resolver: zodResolver(EditNameValidationSchema),
     mode: "onChange",
@@ -36,7 +36,7 @@ export default function EditUsername({
     )
   }
 
-  useEffect(() => {
+  const handleFormChange = () => {
     if (valuesAreEquals()) {
       setError("root", {
         message: "Veuillez modifer au moins un des champs ou annuler",
@@ -44,14 +44,9 @@ export default function EditUsername({
     } else {
       clearErrors("root")
     }
+  }
 
-    return () => {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidating, watch("firstName"), watch("lastName")])
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit: SubmitHandler<any> = async (data: UserProfileType, e) => {
-    e?.preventDefault()
+  const onSubmit: SubmitHandler<UserProfileType> = async (data: UserProfileType) => {
     toast.loading("Envoi...", { id: "loading" })
     try {
       const bodyData: UserProfileType = {
@@ -70,47 +65,50 @@ export default function EditUsername({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        register={register}
-        type="text"
-        name="firstName"
-        label="sr-only"
-        error={errors.firstName?.message}
-        isSubmitting={isSubmitting}
-        isLoading={isLoading}
-        wrapperClass="input-wrapper"
-        defaultValue={userName.firstName}
-      />
+    <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper" onChange={handleFormChange}>
+      <div className="inputs-wrapper">
+        <Input
+          register={register}
+          type="text"
+          name="firstName"
+          label="sr-only"
+          error={errors.firstName?.message}
+          isSubmitting={isSubmitting}
+          isLoading={isLoading}
+          wrapperClass="input-wrapper no-margin-bottom"
+          defaultValue={userName.firstName}
+        />
 
-      <Input
-        register={register}
-        type="text"
-        name="lastName"
-        label="sr-only"
-        error={errors.lastName?.message}
-        isSubmitting={isSubmitting}
-        isLoading={isLoading}
-        wrapperClass="input-wrapper"
-        defaultValue={userName.lastName}
-      />
+        <Input
+          register={register}
+          type="text"
+          name="lastName"
+          label="sr-only"
+          error={errors.lastName?.message}
+          isSubmitting={isSubmitting}
+          isLoading={isLoading}
+          wrapperClass="input-wrapper no-margin-bottom"
+          defaultValue={userName.lastName}
+        />
+      </div>
 
       <span className="error-message">
         {errors.root?.message && <p>{errors.root?.message}</p>}
       </span>
-
-      <button
-        type="submit"
-        className="edit-button"
-        disabled={isSubmitting || isLoading || valuesAreEquals() || !isValid}>
-        {isSubmitting || isLoading ? "Loading..." : "Edit Name"}
-      </button>
-      <button
-        onClick={() => setEditName(false)}
-        className="cancel-button"
-        disabled={isSubmitting || isLoading}>
-        Cancel
-      </button>
+      <div className="form-button-wrapper">
+        <button
+          type="submit"
+          className="edit-button"
+          disabled={isSubmitting || isLoading || valuesAreEquals() || !isValid}>
+          {isSubmitting || isLoading ? "Loading..." : "Save"}
+        </button>
+        <button
+          onClick={() => setEditName(false)}
+          className="edit-button"
+          disabled={isSubmitting || isLoading}>
+          Cancel
+        </button>
+      </div>
     </form>
   )
 }

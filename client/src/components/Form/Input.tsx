@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, InputHTMLAttributes } from "react"
+import { UseFormRegister } from "react-hook-form"
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  register?: any
+  register: UseFormRegister<any>
   type:
-    | "text"
-    | "password"
-    | "email"
-    | "number"
-    | "date"
-    | "checkbox"
-    | "submit"
-    | "radio"
-    | "hidden"
-    | "search"
-    | "textarea"
-    | "select"
-    | "button"
-  name?: string
+  | "text"
+  | "password"
+  | "email"
+  | "number"
+  | "date"
+  | "checkbox"
+  | "submit"
+  | "radio"
+  | "hidden"
+  | "search"
+  | "textarea"
+  | "select"
+  | "button"
+  name: string
   label: string
   error?: string
   isSubmitting: boolean

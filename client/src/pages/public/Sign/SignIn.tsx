@@ -1,5 +1,3 @@
-import "./SignIn.css"
-// import { AuthStatus } from "../../../config/auth/AuthStatus"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -10,6 +8,7 @@ import { SignInValidationSchema } from "../../../components/Form/formValidation"
 import { LoginApiResponseType, loginApiDataType } from "../../../config/types"
 import { useLoginUserMutation } from "../../../redux/services/authService"
 import { loginUserAction } from "../../../redux/slices/userSlice"
+import "./SignIn.css"
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -118,9 +117,6 @@ export default function SignIn() {
           Créer mon compte
         </Link>
       </p>
-      {/* <section>
-        <AuthStatus />
-      </section> */}
     </section>
   )
 }

@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { UserReduxState } from "../../config/types"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const initialState: UserReduxState = {
   email: "",
   token: "",

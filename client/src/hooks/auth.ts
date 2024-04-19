@@ -1,15 +1,17 @@
 import { Dispatch, SerializedError, UnknownAction } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
+import { jwtDecode } from "jwt-decode"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
 import { ErrorApiResponseType } from "../config/types"
+import { useGetUserDataQuery } from "../redux/services/authService"
 import { logoutUserAction } from "../redux/slices/userSlice"
+import { RootState } from "../redux/store"
 
 export function useAuth() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const reduxToken = useSelector((state: any) => state.user.token)
+  const reduxToken = useSelector((state: RootState) => state.user.token)
   const userTokenData = localStorage.getItem("userToken") || reduxToken
   const [userToken, setUserToken] = useState(userTokenData)
   const { pathname } = useLocation()
@@ -43,8 +45,7 @@ export function removeUserSessionStorage({
 }
 
 export function useLogout() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const reduxToken = useSelector((state: any) => state.user.token)
+  const reduxToken = useSelector((state: RootState) => state.user.token)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const logoutUser = () => {
@@ -64,6 +65,22 @@ export function useLogout() {
     navigate("/", { replace: true })
   }
   return { logoutUser }
+}
+
+export function useTokenJWTDecoded() {
+  const userToken = useAuth()
+  const reduxUserEmail = useSelector((state: RootState) => state.user.email)
+  const token: { id: string; iat: number; exp: number } = userToken ? jwtDecode(userToken) : {
+    id: "",
+    iat: 0,
+    exp: 0,
+  }
+  const getData: { id: string; email: string } = {
+    id: token.id,
+    email: localStorage.getItem("userEmail") || reduxUserEmail,
+  }
+  const { data, error, isLoading, isError } = useGetUserDataQuery(getData)
+  return { data, error, isError, isLoading, userToken }
 }
 
 export function useApiUnauthorized(

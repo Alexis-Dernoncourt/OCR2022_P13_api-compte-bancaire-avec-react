@@ -33,10 +33,20 @@ body {
   color: red;
 }
 
+input {
+  border-radius: 0.2rem;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 0.2rem;
+}
+
 button:disabled {
   background-color: #ccc;
   color: darkslategrey;
   border-color: #ccc;
+  cursor: not-allowed;
 }
 
 .sr-only {
