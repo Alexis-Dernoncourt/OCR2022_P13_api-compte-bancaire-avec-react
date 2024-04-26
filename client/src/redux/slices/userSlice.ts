@@ -18,7 +18,10 @@ export const userSlice = createSlice({
     //     increment: state => {
     //         state.value -= 1
     //     }
-    loginUserAction: (state, action: PayloadAction<UserReduxState>) => {
+    loginUserAction: (
+      state,
+      action: PayloadAction<Pick<UserReduxState, "email" | "token">>
+    ) => {
       state.email = action.payload.email
       state.token = action.payload.token
     },

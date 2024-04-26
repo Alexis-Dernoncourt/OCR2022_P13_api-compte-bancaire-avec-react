@@ -1,9 +1,9 @@
 import { Link, NavLink } from "react-router-dom"
-import { useLogout, useTokenJWTDecoded } from "../../hooks/auth"
+import { useGetUserData, useLogout } from "../../hooks/auth"
 
 export default function AuthStatus() {
   const { logoutUser } = useLogout()
-  const { userToken, data, isLoading, isError } = useTokenJWTDecoded()
+  const { userToken, data, isLoading, isError } = useGetUserData()
 
   if (!userToken) {
     return (
@@ -22,11 +22,14 @@ export default function AuthStatus() {
         <i className="fa fa-user-circle" aria-hidden="true"></i>
         {!isLoading && !isError && data ? `${data?.body.firstName}` : "Profil"}
       </NavLink>
-      <Link to={"#"} className="main-nav-item" type="button" onClick={logoutUser}>
+      <Link
+        to={"#"}
+        className="main-nav-item"
+        type="button"
+        onClick={logoutUser}>
         <i className="fa fa-sign-out" aria-hidden="true"></i>
         Logout
       </Link>
-
     </>
   )
 }

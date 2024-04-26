@@ -15,16 +15,15 @@ import {
 export const authApi = createApi({
   reducerPath: "authApi",
   tagTypes: ["USER"],
-  refetchOnFocus: true,
+  // refetchOnFocus: true,
   // keepUnusedDataFor: 60 * 60,
   baseQuery: fetchBaseQuery({
     // base url of backend API
     baseUrl: BaseURL,
-    isJsonContentType: () => true,
     // prepareHeaders is used to configure the header of every request and gives access to getState which we use to include the token from the store
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     prepareHeaders: (headers, { getState }: any) => {
-      // headers.set("Content-Type", "application/json")
+      headers.set("Content-Type", "application/json")
       const userStateToken: UserReduxState = getState().user.token
       const token = localStorage.getItem("userToken") || userStateToken
       if (token) {
@@ -49,14 +48,10 @@ export const authApi = createApi({
         body: data,
       }),
     }),
-    getUserData: builder.query<
-      GetProfileResponseType,
-      { id: string; email: string }
-    >({
-      query: data => ({
+    getUserData: builder.query<GetProfileResponseType, null>({
+      query: () => ({
         url: "/user/profile",
         method: "POST",
-        body: data,
       }),
       providesTags: () => [{ type: "USER", id: "ALL" }],
     }),

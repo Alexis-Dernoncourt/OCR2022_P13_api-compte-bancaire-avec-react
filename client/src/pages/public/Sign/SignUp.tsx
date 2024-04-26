@@ -8,11 +8,9 @@ import { SignupPayloadType, UserType } from "../../../config/types"
 import { useRegisterUserMutation } from "../../../redux/services/authService"
 import "./SignIn.css"
 
-export default function SignIn() {
+export default function SignUp() {
   const navigate = useNavigate()
   const location = useLocation()
-  // const dispatch = useDispatch()
-
   const [registerUser, { isLoading }] = useRegisterUserMutation()
 
   const {

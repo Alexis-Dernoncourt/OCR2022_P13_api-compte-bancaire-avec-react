@@ -1,42 +1,37 @@
 import { Dispatch, SerializedError, UnknownAction } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
-import { jwtDecode } from "jwt-decode"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { ErrorApiResponseType } from "../config/types"
 import { useGetUserDataQuery } from "../redux/services/authService"
 import { logoutUserAction } from "../redux/slices/userSlice"
 import { RootState } from "../redux/store"
 
 export function useAuth() {
-  const reduxToken = useSelector((state: RootState) => state.user.token)
-  const userTokenData = localStorage.getItem("userToken") || reduxToken
-  const [userToken, setUserToken] = useState(userTokenData)
-  const { pathname } = useLocation()
+  const token = useSelector((state: RootState) => state.user.token)
+  const storedToken = localStorage.getItem("userToken") || token
+  const [userToken, setUserToken] = useState(storedToken)
 
   useEffect(() => {
-    setUserToken(userTokenData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+    setUserToken(storedToken)
+  }, [storedToken])
+
   return userToken
 }
 
-function getUserSessionStorage() {
-  const userTokenLocal = localStorage.getItem("userToken")
-  if (userTokenLocal) {
-    return "localStorage"
-  }
-  return "redux"
+function getUserSessionStorageLocation() {
+  const userToken = localStorage.getItem("userToken")
+  return userToken ? "localStorage" : "redux"
 }
 
-export function removeUserSessionStorage({
+export async function removeUserSessionStorage({
   dispatchAction,
 }: {
   dispatchAction: Dispatch<UnknownAction>
 }) {
-  if (getUserSessionStorage() === "localStorage") {
+  if (getUserSessionStorageLocation() === "localStorage") {
     localStorage.removeItem("userToken")
     localStorage.removeItem("userEmail")
   } else {
@@ -48,7 +43,7 @@ export function useLogout() {
   const reduxToken = useSelector((state: RootState) => state.user.token)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const logoutUser = () => {
+  const logoutUser = useCallback(() => {
     if (!localStorage.getItem("userToken") && !reduxToken) {
       return toast.error("Vous êtes déjà déconnecté", {
         duration: 3000,
@@ -59,27 +54,18 @@ export function useLogout() {
         },
       })
     }
-
     removeUserSessionStorage({ dispatchAction: dispatch })
     toast("Vous êtes déconnecté")
     navigate("/", { replace: true })
-  }
+  }, [reduxToken])
   return { logoutUser }
 }
 
-export function useTokenJWTDecoded() {
+export function useGetUserData() {
   const userToken = useAuth()
-  const reduxUserEmail = useSelector((state: RootState) => state.user.email)
-  const token: { id: string; iat: number; exp: number } = userToken ? jwtDecode(userToken) : {
-    id: "",
-    iat: 0,
-    exp: 0,
-  }
-  const getData: { id: string; email: string } = {
-    id: token.id,
-    email: localStorage.getItem("userEmail") || reduxUserEmail,
-  }
-  const { data, error, isLoading, isError } = useGetUserDataQuery(getData)
+  const { data, error, isLoading, isError } = useGetUserDataQuery(null, {
+    skip: !userToken,
+  })
   return { data, error, isError, isLoading, userToken }
 }
 
@@ -124,6 +110,4 @@ export function useApiUnauthorized(
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error, errorData, isError])
-
-  return
 }
