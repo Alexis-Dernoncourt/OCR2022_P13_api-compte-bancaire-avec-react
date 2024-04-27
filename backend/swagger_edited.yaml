@@ -112,14 +112,14 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /transactions:
+  /accounts:
     get:
       security:
         - Bearer: []
       tags:
-        - User Transactions
-      summary: Transactions API
-      description: API for fetching user transactions by current month (the current month is retrieved by the API)
+        - User Accounts
+      summary: User Accounts API
+      description: API for fetching user accounts
       parameters:
         - in: header
           type: string
@@ -130,46 +130,46 @@ paths:
         - application/json
       responses:
         '200':
-          description: User transactions retrieved successfully
+          description: User accounts retrieved successfully
           schema:
-            $ref: '#/definitions/AllTransactionsResponse'
+            $ref: '#/definitions/AllAccountsResponse'
         '401':
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /transactions/id:
-    post:
+  /accounts/{id}:
+    get:
       security:
         - Bearer: []
       tags:
-        - User Transactions
-      summary: Transactions API
-      description: Retrieve a user transaction
+        - User Accounts
+      summary: User Accounts API
+      description: Retrieve user transactions by current month, associated to an account (the current month is retrieved by the API)
       parameters:
         - in: header
           type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
-        - in: body
-          name: body
-          description: Transaction Payload
+        - in: path
+          name: id
+          type: string
+          description: Account id
           required: true
-          schema:
-            $ref: '#/definitions/RetrieveTransactionPayload'
       produces:
         - application/json
       responses:
         '200':
-          description: User transactions retrieved successfully
+          description: Transactions retrieved successfully
           schema:
-            $ref: '#/definitions/TransactionResponse'
+            $ref: '#/definitions/TransactionsResponse'
         '401':
           description: Unauthorized
         '404':
           description: Not found
         '500':
           description: Internal Server Error
+  /transactions/{id}:
     patch:
       security:
         - Bearer: []
@@ -183,6 +183,11 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+        - in: path
+          type: string
+          name: id
+          description: Transaction ID
+          required: true
         - in: body
           name: body
           description: Update Transaction Payload
@@ -192,10 +197,8 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
-          description: User transactions retrieved successfully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
+        '204':
+          description: Ok - No Content
         '401':
           description: Unauthorized
         '404':
@@ -256,7 +259,7 @@ definitions:
         type: string
       lastName:
         type: string
-  AllTransactionsResponse:
+  AllAccountsResponse:
     type: array
     items:
       type: object
@@ -269,7 +272,7 @@ definitions:
           type: number
         currentBalance:
           type: number
-  TransactionResponse:
+  TransactionsResponse:
     type: object
     properties:
       status:
@@ -279,38 +282,37 @@ definitions:
       body:
         type: object
         properties:
-          userId:
-            type: string
           accountId:
             type: string
-          transaction:
-            type: object
-            properties:
-              id:
-                type: string
-              date: 
-                type: string
-              description:
-                type: string
-              amount:
-                type: number
-              balance:
-                type: number
-              transactionType:
-                type: string
-              category:
-                type: string
-  RetrieveTransactionPayload:
-    type: object
-    properties:
-      accountId:
-        type: string
+          transactions:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                date: 
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                availableBalance:
+                  type: number
+                currentBalance:
+                  type: number
+                transactionType:
+                  type: string
+                category:
+                  type: string
   UpdateTransactionPayload:
     type: object
     properties:
-      transactionId:
-        type: string
       type:
         type: string
+        optional: true
+        description: Transaction type (could be empty string)
       category:
         type: string
+        optional: true
+        description: Transaction category (could be empty string)
