@@ -19,7 +19,6 @@ const SignUpValidationSchema = z
       .min(1, "Ce champs est requis"),
     password: z.string().min(8, "Entrez au moins 8 caractères"),
     confirmPassword: z.string().min(8, "Veuillez confirmer votre mot de passe"),
-    rememberMe: z.boolean(),
   })
   .refine(
     async data =>
