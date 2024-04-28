@@ -2,13 +2,12 @@ import { useState } from "react"
 import AccountBlock from "../../../components/AccountBlock/AccountBlock"
 import EditUsername from "../../../components/Form/EditUser"
 import { GetProfileResponseType } from "../../../config/types"
-import { useApiUnauthorized, useGetUserData } from "../../../hooks/auth"
+import { useGetUserData } from "../../../hooks/auth"
 import "./User.css"
 
 export default function User() {
   const [editName, setEditName] = useState(false)
-  const { userToken, data, isLoading, isError, error } = useGetUserData()
-  useApiUnauthorized(error, isError!)
+  const { userToken, data, isLoading } = useGetUserData()
   const userName = {
     firstName: data?.body.firstName || "",
     lastName: data?.body.lastName || "",

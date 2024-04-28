@@ -19,6 +19,15 @@
   padding: 0 0.5rem;
 }
 
+.main-nav-item.with-skeleton {
+  display: inline-flex;
+  align-items: center;
+}
+
+.main-nav-item.with-skeleton .react-loading-skeleton {
+  width: 50px;
+}
+
 .main-nav-item:hover {
   text-decoration: underline;
 }

@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
@@ -6,15 +7,23 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import Input from "../../../components/Form/Input"
 import { SignInValidationSchema } from "../../../components/Form/formValidation"
 import { LoginApiResponseType, loginApiDataType } from "../../../config/types"
+import { useAuth } from "../../../hooks/auth"
 import { useLoginUserMutation } from "../../../redux/services/authService"
 import { loginUserAction } from "../../../redux/slices/userSlice"
 import "./SignIn.css"
 
 export default function SignIn() {
+  const userToken = useAuth()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
   const [loginUser, { isLoading }] = useLoginUserMutation()
+
+  useEffect(() => {
+    if (userToken) {
+      navigate("/profile", { replace: true })
+    }
+  }, [navigate, userToken])
 
   const {
     register,
@@ -54,7 +63,7 @@ export default function SignIn() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("🚀 ~ loginUser ~ error:", error)
-      toast.error(error.data?.message || "Il y a eu une erreur")
+      // toast.error(error.data?.message || "Il y a eu une erreur")
     } finally {
       toast.remove("loading")
     }

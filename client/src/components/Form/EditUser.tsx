@@ -46,7 +46,9 @@ export default function EditUsername({
     }
   }
 
-  const onSubmit: SubmitHandler<UserProfileType> = async (data: UserProfileType) => {
+  const onSubmit: SubmitHandler<UserProfileType> = async (
+    data: UserProfileType
+  ) => {
     toast.loading("Envoi...", { id: "loading" })
     try {
       const bodyData: UserProfileType = {
@@ -58,14 +60,17 @@ export default function EditUsername({
       setEditName(false)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error("Il y a eu une erreur")
+      console.error("🚀 ~ EditUser ~ error:", error)
     } finally {
       toast.remove("loading")
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper" onChange={handleFormChange}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="form-wrapper"
+      onChange={handleFormChange}>
       <div className="inputs-wrapper">
         <Input
           register={register}
