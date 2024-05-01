@@ -1,7 +1,7 @@
 {
     "prettier.endOfLine": "auto",
     "prettier.requireConfig": true,
-    "prettier.printWidth": 100,
+    "prettier.printWidth": 80,
     "prettier.semi": false,
     "prettier.singleAttributePerLine": true,
     "prettier.tabWidth": 2,
@@ -9,5 +9,9 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "javascript.format.enable": true,
-    "typescript.format.enable": true
+    "typescript.format.enable": true,
+    "typescriptHero.imports.stringQuoteStyle": "\"",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    }
 }
